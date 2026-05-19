@@ -85,13 +85,7 @@ with gr.Blocks() as demo:
         input_img = gr.Image(sources=["webcam"], streaming=True, label="Camera trực tiếp")
         output_img = gr.Image(label="Kết quả dự đoán")
     
-<<<<<<< HEAD
-    # Lược bỏ stream_every vì Gradio 4.44.0 không hỗ trợ tham số này trong hàm stream()
     input_img.stream(process_frame, inputs=[input_img], outputs=[output_img])
-=======
-    # stream_every=0.2 giúp giảm tải (chỉ gửi 5 frame 1 giây thay vì gửi liên tục) để tránh bị lag queue
-    input_img.stream(process_frame, inputs=[input_img], outputs=[output_img], time_limit=15, stream_every=0.2)
->>>>>>> parent of 46616fa (Update app_gradio.py)
 
 if __name__ == "__main__":
     demo.launch()

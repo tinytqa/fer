@@ -91,7 +91,7 @@ with gr.Blocks() as demo:
         output_img = gr.Image(label="Kết quả dự đoán")
     
     # stream_every=0.2 giúp giảm tải (chỉ gửi 5 frame 1 giây thay vì gửi liên tục) để tránh bị lag queue
-    input_img.stream(process_frame, inputs=[input_img], outputs=[output_img], time_limit=15, stream_every=0.2)
+    input_img.stream(process_frame, inputs=[input_img], outputs=[output_img], stream_every=0.2)
 
 if __name__ == "__main__":
     demo.launch()

@@ -39,11 +39,17 @@ def process_frame(frame):
     
     # Gradio truyền ảnh dưới dạng mảng NumPy RGB
     frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-    gray = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2GRAY)
+    
+    # Thu nhỏ ảnh để nhận diện khuôn mặt nhanh hơn
+    small_frame = cv2.resize(frame_bgr, (0, 0), fx=0.5, fy=0.5)
+    gray = cv2.cvtColor(small_frame, cv2.COLOR_BGR2GRAY)
     
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5, minSize=(30, 30))
 
     for (x, y, w, h) in faces:
+        # Nhân đôi toạ độ do ảnh đã bị thu nhỏ 1/2
+        x, y, w, h = x * 2, y * 2, w * 2, h * 2
+        
         margin_y = int(h * 0.1)
         margin_x = int(w * 0.1)
         y1 = max(0, y - margin_y)
@@ -84,7 +90,8 @@ with gr.Blocks() as demo:
         input_img = gr.Image(sources=["webcam"], streaming=True, label="Camera trực tiếp")
         output_img = gr.Image(label="Kết quả dự đoán")
     
-    input_img.stream(process_frame, inputs=[input_img], outputs=[output_img], time_limit=15)
+    # stream_every=0.2 giúp giảm tải (chỉ gửi 5 frame 1 giây thay vì gửi liên tục) để tránh bị lag queue
+    input_img.stream(process_frame, inputs=[input_img], outputs=[output_img], time_limit=15, stream_every=0.2)
 
 if __name__ == "__main__":
     demo.launch()

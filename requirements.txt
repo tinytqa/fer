@@ -4,4 +4,4 @@ opencv-python-headless
 numpy
 Pillow
 gradio
-pyaudioop
+audioop-lts

@@ -19,7 +19,4 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          # Dòng lệnh đẩy code từ Github sang Hugging Face.
-          # BẠN CẦN THAY ĐỔI [USERNAME] và [SPACE_NAME] thành thông tin thực tế của bạn trên HF.
-          # Ví dụ: tranq/FER-Web-App
-          git push --force https://user:$HF_TOKEN@huggingface.co/spaces/[USERNAME]/[SPACE_NAME] main
+          git push --force https://user:$HF_TOKEN@huggingface.co/spaces/tinytqa/FER-Web-App main

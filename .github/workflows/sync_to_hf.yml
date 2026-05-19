@@ -19,4 +19,9 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git push --force https://user:$HF_TOKEN@huggingface.co/spaces/tinytqa/FER-Web-App main
+          # Configure Git LFS and migrate large files to LFS to bypass Hugging Face's 10MB limit
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git lfs install
+          git lfs migrate import --include="*.pth" --yes
+          git push --force https://user:$HF_TOKEN@huggingface.co/spaces/tinytqa/FER-Web-App HEAD:main

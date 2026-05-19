@@ -1,0 +1,25 @@
+name: Sync to Hugging Face Hub
+
+on:
+  push:
+    branches: [main]
+  # Cho phép chạy thủ công từ tab Actions trên GitHub
+  workflow_dispatch:
+
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          lfs: true
+      
+      - name: Push to Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          # Dòng lệnh đẩy code từ Github sang Hugging Face.
+          # BẠN CẦN THAY ĐỔI [USERNAME] và [SPACE_NAME] thành thông tin thực tế của bạn trên HF.
+          # Ví dụ: tranq/FER-Web-App
+          git push --force https://user:$HF_TOKEN@huggingface.co/spaces/[USERNAME]/[SPACE_NAME] main

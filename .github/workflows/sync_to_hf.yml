@@ -23,5 +23,7 @@ jobs:
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
           git lfs install
-          git lfs migrate import --include="*.pth" --yes
-          git push --force https://user:$HF_TOKEN@huggingface.co/spaces/tinytqa/FER-Web-App HEAD:main
+          # Checkout main branch to ensure we're not in detached HEAD state
+          git checkout main || git checkout -b main
+          git lfs migrate import --everything --include="*.pth" --yes
+          git push --force https://user:$HF_TOKEN@huggingface.co/spaces/tinytqa/FER-Web-App main
